@@ -95,9 +95,7 @@ class SQLiteDialect_libsql(SQLiteDialect_pysqlite):
 
     @classmethod
     def import_dbapi(cls):
-        from libsql_client import dbapi2 as libsql_client
-
-        return libsql_client
+        return libsql_client.dbapi2
 
     def on_connect(self):
         from libsql_client.dbapi2 import Connection
