@@ -35,7 +35,14 @@ If the given URL provides a hostname, then it will default to ``uri=true``.
 """  # noqa: E501
 
 import sys
-from libsql_patch import patch_libsql
+
+def patch_libsql():
+    if sys.version_info >= (3, 12):
+        import sqlite3
+        with patch.object(sqlite3, 'SQLITE_BUSY_TIMEOUT', sqlite3.SQLITE_BUSY):
+            yield
+    else:
+        yield
 
 with patch_libsql():
     import libsql_client
