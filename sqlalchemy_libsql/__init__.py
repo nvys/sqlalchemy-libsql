@@ -34,6 +34,12 @@ If the given URL provides a hostname, then it will default to ``uri=true``.
 
 """  # noqa: E501
 
+import sys
+from libsql_patch import patch_libsql
+
+with patch_libsql():
+    import libsql_client
+
 import os
 import urllib.parse
 
