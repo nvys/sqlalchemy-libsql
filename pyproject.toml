@@ -42,7 +42,7 @@ classifiers = [
 [tool.poetry.dependencies]
 python = "^3.7"
 SQLAlchemy = "^2.0.0"
-libsql-client = "^0.3.0"
+libsql-client = "^0.3.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3"
