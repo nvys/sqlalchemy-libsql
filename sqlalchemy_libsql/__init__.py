@@ -42,8 +42,17 @@ from contextlib import contextmanager
 def patch_libsql():
     if sys.version_info >= (3, 12):
         import sqlite3
-        with patch.object(sqlite3, 'SQLITE_BUSY_TIMEOUT', sqlite3.SQLITE_BUSY):
+        
+        # Check if SQLITE_BUSY_TIMEOUT exists, if not, use SQLITE_BUSY
+        busy_attr = 'SQLITE_BUSY_TIMEOUT' if hasattr(sqlite3, 'SQLITE_BUSY_TIMEOUT') else 'SQLITE_BUSY'
+        
+        original_value = getattr(sqlite3, busy_attr)
+        setattr(sqlite3, 'SQLITE_BUSY_TIMEOUT', original_value)
+        try:
             yield
+        finally:
+            if busy_attr != 'SQLITE_BUSY_TIMEOUT':
+                delattr(sqlite3, 'SQLITE_BUSY_TIMEOUT')
     else:
         yield
         
