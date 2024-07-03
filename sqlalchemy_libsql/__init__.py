@@ -35,7 +35,10 @@ If the given URL provides a hostname, then it will default to ``uri=true``.
 """  # noqa: E501
 
 import sys
+from unittest.mock import patch
+from contextlib import contextmanager
 
+@contextmanager
 def patch_libsql():
     if sys.version_info >= (3, 12):
         import sqlite3
@@ -43,7 +46,7 @@ def patch_libsql():
             yield
     else:
         yield
-
+        
 with patch_libsql():
     import libsql_client
 
